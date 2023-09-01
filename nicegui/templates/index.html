@@ -240,8 +240,12 @@
             connect: () => {
               window.socket.emit("handshake", (ok) => {
                 if (!ok) {
-                  console.log('reloading because handshake failed')
-                  window.location.reload();
+                  setTimeout(window.socket.emit("handshake", (ok) => {
+                    if(!ok){
+                      console.log('reloading because handshake failed')
+                      window.location.reload();
+                    }
+                  }), 200);
                 }
                 document.getElementById('popup').style.opacity = 0;
               });
